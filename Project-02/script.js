@@ -5,9 +5,6 @@ const seats = document.querySelectorAll('.row .seat');
  const total = document.getElementById('total');
  const selectMovie = document.getElementById('movie');
 
- //call the UI function - get data from local storage and update the UI
-updateUI();
-
  //Get the ticket price from the selectMovie Dropdown
  let ticketPrice = +selectMovie.value;
 
