@@ -5,8 +5,11 @@ const seats = document.querySelectorAll('.row .seat');
  const total = document.getElementById('total');
  const selectMovie = document.getElementById('movie');
 
- //Get the ticket price from the selectMovie Dropdown
- let ticketPrice = +selectMovie.value;
+//Get the ticket price from the selectMovie Dropdown
+let ticketPrice = +selectMovie.value;
+
+ //call the update UI Function - get data from local storage and update UI
+ //updateUI();
 
  //Function to update count
  function updateCount() {
@@ -32,9 +35,30 @@ const seats = document.querySelectorAll('.row .seat');
 
 //Function to get data from local storage and update the UI
 function updateUI() {
+    //get the selected seats data from localstorage
     const selectedSeats = JASON.parse(localStorage.getItem('selectedSeats'));
+    //check if there are any selected seats
+    if (selectedSeats !== null && selectedSeats.length > 0) {
+        //loop over all the seats in the theater
+        seats.forEach ( (seat, index) => {
+            //if the index of seat is contained inside selected  seats array
+            if (selectedSeats.indexOf(index) > -1 ) {
+                //add the selected class to the seats
+                seat.classList.add('selected');
+            }
+        })
+    }
+    //Get the selectedbmovie from local storage
+    const movieIndex = localStorage.getItem('movieIndex');
+    //check if there is a movie index
+    if (movieIndex !== null) {
+        //use the movieIndex from local storage to update the movie from drop down
+        selectMovie.selectedIndex = movieIndex;
+    }
+    //update the count
+    updateCount();
 
-}
+};
 
 //Event Listners
 //1. Listen for click on container
@@ -55,5 +79,5 @@ selectMovie.addEventListener('change', e => {
     //update the counts in DOM
     updateCount();
     //save the movie data to local storage
-    saveMovieData(e.target.selectedIndex,e.target.value);
+    saveMovieData(e.target.selectedIndex, e.target.value);
 })
